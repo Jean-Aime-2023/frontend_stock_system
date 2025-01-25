@@ -213,7 +213,7 @@ export function SuppliersTable() {
           </DropdownMenu>
           <Button
             variant="outline"
-            className="ml-auto"
+            className="ml-auto bg-blue text-white hover:bg-blue/50 transition"
             onClick={() => router.push('/suppliers/new')}
           >
             <MdAdd />

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import * as React from 'react';
@@ -13,21 +14,26 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
-
+import { ArrowUpDown, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { IoCloudDownloadOutline } from 'react-icons/io5';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { FaRegTrashAlt } from 'react-icons/fa';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { MdAdd } from 'react-icons/md';
 import {
   Table,
   TableBody,
@@ -36,50 +42,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { IoCloudDownloadOutline } from 'react-icons/io5';
+import { MdAdd } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
+import { Supplier, suppliers } from '@/data/Suppliers';
 
-const data: Payment[] = [
-  {
-    id: 'm5gr84i9',
-    amount: 316,
-    status: 'success',
-    email: 'ken99@yahoo.com',
-  },
-  {
-    id: '3u1reuv4',
-    amount: 242,
-    status: 'success',
-    email: 'Abe45@gmail.com',
-  },
-  {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@gmail.com',
-  },
-  {
-    id: '5kma53ae',
-    amount: 874,
-    status: 'success',
-    email: 'Silas22@gmail.com',
-  },
-  {
-    id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
-    email: 'carmella@hotmail.com',
-  },
-];
-
-export type Payment = {
-  id: string;
-  amount: number;
-  status: 'pending' | 'processing' | 'success' | 'failed';
-  email: string;
-};
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Supplier>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -103,75 +70,82 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue('status')}</div>
+    accessorKey: 'name',
+    header: ({ column }) => (
+      <Button
+        className="pl-0"
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      >
+        Supplier Name
+        <ArrowUpDown />
+      </Button>
     ),
+    cell: ({ row }) => <span>{row.getValue('name')}</span>,
   },
   {
-    accessorKey: 'email',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Email
-          <ArrowUpDown />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue('email')}</div>,
-  },
-  {
-    accessorKey: 'amount',
-    header: () => <div>Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('amount'));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(amount);
-
-      return <div className="font-medium">{formatted}</div>;
-    },
+    accessorKey: 'contact',
+    header: 'Contacts',
+    cell: ({ row }) => <span>{row.getValue('contact')}</span>,
   },
   {
     id: 'actions',
     enableHiding: false,
-    header: () => <div>Actions</div>,
+    header: 'Actions',
     cell: ({ row }) => {
-      const payment = row.original;
-
+      const supplierId = row.original.id;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex gap-2">
+          <Dialog>
+            <DialogTrigger>
+              <div
+                className="flex-1 bg-[#E91A1A] rounded hover:bg-[#c73535] p-2 text-white hover:text-white"
+                onClick={(e) => e.stopPropagation()} 
+              >
+                <FaRegTrashAlt color="white" />
+              </div>
+            </DialogTrigger>
+
+            <DialogContent className="p-9 flex-col gap-4">
+              <DialogHeader className="flex-col gap-4">
+                <DialogTitle>Confirm delete</DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. This will permanently delete the
+                  supplier. Enter your{' '}
+                  <span className="font-semibold">username</span> to confirm.
+                </DialogDescription>
+                <form className="flex flex-col gap-5">
+                  <input
+                    type="text"
+                    placeholder="eg: John"
+                    className="px-4 py-3 rounded-[12px] placeholder-[#6B6B6B] bg-[#F5F5F5] outline-none"
+                  />
+                  <div className="flex flex-row gap-4 items-center">
+                    <Button className="bg-[#E91A1A] hover:bg-[#c73535] p-2 px-3 text-white">
+                      Delete
+                    </Button>
+                    <Button className="text-black border border-[#D0D5DD] bg-transparent hover:bg-transparent p-2 px-3">
+                      Cancel
+                    </Button>
+                  </div>
+                </form>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+        </div>
       );
     },
   },
 ];
 
 export function ManagersTable() {
+  const router = useRouter();
+
+  const navigateToSupplierDetails = (id: number) => {
+    router.push(`/managers/${id}`);
+  };
+  
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -179,10 +153,9 @@ export function ManagersTable() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const router = useRouter();
 
   const table = useReactTable({
-    data,
+    data: suppliers,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -204,10 +177,10 @@ export function ManagersTable() {
     <div className="w-full p-3 rounded-xl bg-white border shadow-md">
       <div className="flex justify-between items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
+          placeholder="Filter supplier..."
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('email')?.setFilterValue(event.target.value)
+            table.getColumn('name')?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -238,23 +211,19 @@ export function ManagersTable() {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="outline" className="ml-auto">
-            <IoCloudDownloadOutline />
-            Export
-          </Button>
           <Button
-            onClick={()=>router.push('/managers/new')}
             variant="outline"
-            className="ml-auto bg-blue border-none hover:bg-blue/80 text-white hover:text-white"
+            className="ml-auto bg-blue text-white hover:bg-blue/50 transition"
+            onClick={() => router.push('/suppliers/new')}
           >
             <MdAdd />
-            Add manager
+            Add supplier
           </Button>
         </div>
       </div>
       <div className="rounded-md border">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-[#FCFCFD]">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -277,6 +246,8 @@ export function ManagersTable() {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
+                  className="cursor-pointer"
+                  onClick={() => navigateToSupplierDetails(row.original.id)}
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -303,28 +274,22 @@ export function ManagersTable() {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
       </div>
     </div>
   );

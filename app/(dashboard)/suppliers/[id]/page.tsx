@@ -37,7 +37,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { IoCloudDownloadOutline } from 'react-icons/io5';
-import { MdAdd } from 'react-icons/md';
 import { ChevronDown } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { GoDotFill } from 'react-icons/go';
@@ -243,7 +242,7 @@ export default function StockTable() {
             variant="outline"
             className="ml-auto bg-red-500 border-none hover:bg-red-500/80 text-white hover:text-white"
           >
-            <MdAdd />
+            <FaRegTrashAlt />
             Delete
           </Button>
         </div>
