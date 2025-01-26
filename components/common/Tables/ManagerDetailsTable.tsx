@@ -41,11 +41,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { MdAdd } from 'react-icons/md';
-import { useRouter } from 'next/navigation';
-import { detailedManagers,DetailedManager } from '@/data/Managers';
+import { useParams, useRouter } from 'next/navigation';
+import { detailedManagers, Product } from '@/data/Managers';
 
-export const columns: ColumnDef<DetailedManager>[] = [
+export const columns: ColumnDef<Product>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -69,23 +68,33 @@ export const columns: ColumnDef<DetailedManager>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'fullName',
+    accessorKey: 'name',
     header: ({ column }) => (
       <Button
         className="pl-0"
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
-        Manager Name
+        Product Name
         <ArrowUpDown />
       </Button>
     ),
-    cell: ({ row }) => <span>{row.getValue('fullName')}</span>,
+    cell: ({ row }) => <span>{row.getValue('name')}</span>,
   },
   {
-    accessorKey: 'contacts',
-    header: 'Contacts',
-    cell: ({ row }) => <span>{row.getValue('contacts')}</span>,
+    accessorKey: 'quantity',
+    header: 'Quantity',
+    cell: ({ row }) => <span>{row.getValue('quantity')}</span>,
+  },
+  {
+    accessorKey: 'unitPrice',
+    header: 'Unit Price (RWF)',
+    cell: ({ row }) => <span>{row.getValue('unitPrice')}</span>,
+  },
+  {
+    accessorKey: 'productDate',
+    header: 'Date',
+    cell: ({ row }) => <span>{row.getValue('productDate')}</span>,
   },
   {
     id: 'actions',
@@ -99,12 +108,11 @@ export const columns: ColumnDef<DetailedManager>[] = [
             <DialogTrigger>
               <div
                 className="flex-1 bg-[#E91A1A] rounded hover:bg-[#c73535] p-2 text-white hover:text-white"
-                onClick={(e) => e.stopPropagation()} 
+                onClick={(e) => e.stopPropagation()}
               >
                 <FaRegTrashAlt color="white" />
               </div>
             </DialogTrigger>
-
             <DialogContent className="p-9 flex-col gap-4">
               <DialogHeader className="flex-col gap-4">
                 <DialogTitle>Confirm delete</DialogTitle>
@@ -137,14 +145,13 @@ export const columns: ColumnDef<DetailedManager>[] = [
   },
 ];
 
-
-export function ManagersTable() {
+export function ManagerDetailsTable() {
   const router = useRouter();
+  const { id: managerId } = useParams();
 
-  const navigateToManagerDetails = (id: number) => {
-    router.push(`/managers/${id}`);
-  };
-  
+  const productData: Product[] =
+    detailedManagers.find((manager) => manager.id.toString() === managerId)
+      ?.products || [];
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -155,7 +162,7 @@ export function ManagersTable() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: detailedManagers,
+    data: productData,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -177,10 +184,10 @@ export function ManagersTable() {
     <div className="w-full p-3 rounded-xl bg-white border shadow-md">
       <div className="flex justify-between items-center py-4">
         <Input
-          placeholder="Filter supplier..."
-          value={(table.getColumn('fullName')?.getFilterValue() as string) ?? ''}
+          placeholder="Filter product name..."
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('fullName')?.setFilterValue(event.target.value)
+            table.getColumn('name')?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -211,14 +218,6 @@ export function ManagersTable() {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button
-            variant="outline"
-            className="ml-auto bg-blue text-white hover:bg-blue/50 transition"
-            onClick={() => router.push('/managers/new')}
-          >
-            <MdAdd />
-            Add supplier
-          </Button>
         </div>
       </div>
       <div className="rounded-md border">
@@ -226,18 +225,16 @@ export function ManagersTable() {
           <TableHeader className="bg-[#FCFCFD]">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -246,8 +243,6 @@ export function ManagersTable() {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className="cursor-pointer"
-                  onClick={() => navigateToManagerDetails(row.original.id)}
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (

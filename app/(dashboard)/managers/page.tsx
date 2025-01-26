@@ -4,13 +4,14 @@ import { useRouter } from 'next/navigation';
 import Blank from '@/components/common/Blank';
 import { BiPlus } from 'react-icons/bi';
 import { ManagersTable } from '@/components/common/Tables/ManagersTable';
+import { detailedManagers } from '@/data/Managers';
 
 const Managers = () => {
   const [isExistManager, setIsExistManager] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const managersList = [];
+    const managersList = detailedManagers;
     setIsExistManager(managersList.length > 0);
   }, []);
 
