@@ -149,15 +149,15 @@ export const columns: ColumnDef<Stock>[] = [
     enableHiding: false,
     header: 'Actions',
     cell: () => {
-      return (
+      return ( 
         <Dialog>
-          <DialogTrigger>
+          <DialogTrigger onClick={(e) => e.stopPropagation()}>
             <div className="flex-1 bg-[#E91A1A] rounded hover:bg-[#c73535] p-2 text-white hover:text-white">
               <FaRegTrashAlt color="white" />
             </div>
           </DialogTrigger>
 
-          <DialogContent className="p-9 flex-col gap-4">
+          <DialogContent onClick={(e) => e.stopPropagation()} className="p-9 flex-col gap-4">
             <DialogHeader className="flex-col gap-4">
               <DialogTitle>Confirm delete</DialogTitle>
               <DialogDescription>
@@ -265,7 +265,7 @@ export function StockTable() {
             Export
           </Button>
           <Button
-            onClick={() => router.push('/stock/products/new')}
+            onClick={() => router.push('/products/new')}
             variant="outline"
             className="ml-auto bg-blue border-none hover:bg-blue/80 text-white hover:text-white"
           >

@@ -111,7 +111,7 @@ export const columns: ColumnDef<Product>[] = [
                 <FaRegTrashAlt color="white" />
               </div>
             </DialogTrigger>
-            <DialogContent className="p-9 flex-col gap-4">
+            <DialogContent onClick={(e) => e.stopPropagation()} className="p-9 flex-col gap-4">
               <DialogHeader className="flex-col gap-4">
                 <DialogTitle>Confirm delete</DialogTitle>
                 <DialogDescription>

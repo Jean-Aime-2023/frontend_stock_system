@@ -97,7 +97,7 @@ export const columns: ColumnDef<Supplier>[] = [
       return (
         <div className="flex gap-2">
           <Dialog>
-            <DialogTrigger>
+            <DialogTrigger onClick={(e) => e.stopPropagation()}>
               <div
                 className="flex-1 bg-[#E91A1A] rounded hover:bg-[#c73535] p-2 text-white hover:text-white"
                 onClick={(e) => e.stopPropagation()} 
@@ -106,7 +106,7 @@ export const columns: ColumnDef<Supplier>[] = [
               </div>
             </DialogTrigger>
 
-            <DialogContent className="p-9 flex-col gap-4">
+            <DialogContent onClick={(e) => e.stopPropagation()} className="p-9 flex-col gap-4">
               <DialogHeader className="flex-col gap-4">
                 <DialogTitle>Confirm delete</DialogTitle>
                 <DialogDescription>

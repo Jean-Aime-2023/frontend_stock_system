@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { Button } from '@/components/ui/button';
 import React from 'react';
@@ -13,6 +13,14 @@ import Image from 'next/image';
 import { ManagerDetailsTable } from '@/components/common/Tables/ManagerDetailsTable';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useRouter } from 'next/navigation';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 const subImage = [
   {
@@ -36,23 +44,23 @@ const ProuctDetails = () => {
       <div className="flex items-center gap-6">
         <div className="flex flex-col flex-1 pb-16 border-b border-b-[#C7C7C7]">
           <div className="flex flex-col gap-1 flex-1 pb-5">
-            <h1 className="text-3xl font-medium">Product Name</h1>
+            <h1 className="text-3xl font-medium">Shoes</h1>
             <p className="text-[#5D6679]">Eri Rwanda</p>
             <p className="text-[#5D6679]">Mon 14th, July, 204</p>
             <p className="text-[#5D6679]">
               Threshold value: <span className="text-black">50</span>
             </p>
           </div>
-          <div className="grid grid-cols-3 gap-4 mt-4 w-fit">
-            <div className="border bg-[#F4F4F4] w-fit px-5 flex flex-col items-center justify-center py-6 rounded-xl">
+          <div className="grid grid-cols-3 gap-4 mt-4 w-[80%]">
+            <div className="border bg-[#F4F4F4] px-5 flex flex-col items-center justify-center py-6 rounded-xl">
               <p className="text-2xl">500</p>
               <p className="text-[#5D6679]">Entry Stock</p>
             </div>
-            <div className="border bg-[#F4F4F4] w-fit px-5 flex flex-col items-center justify-center py-6 rounded-xl">
+            <div className="border bg-[#F4F4F4] px-5 flex flex-col items-center justify-center py-6 rounded-xl">
               <p className="text-2xl">500</p>
               <p className="text-[#5D6679]">Entry Stock</p>
             </div>
-            <div className="border bg-[#F4F4F4] w-fit px-5 flex flex-col items-center justify-center py-6 rounded-xl">
+            <div className="border bg-[#F4F4F4] px-5 flex flex-col items-center justify-center py-6 rounded-xl">
               <p className="text-2xl">500</p>
               <p className="text-[#5D6679]">Entry Stock</p>
             </div>
@@ -69,10 +77,41 @@ const ProuctDetails = () => {
               Edit Product
               <BiSolidPencil />
             </Button>
-            <Button className="flex items-center gap-2 bg-[#FFDDDD] text-[#E91A1A] hover:bg-red-200">
-              Delete
-              <IoMdTrash color="#E91A1A" />
-            </Button>
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="flex px-3 py-2 cursor-pointer rounded-md items-center gap-2 bg-[#FFDDDD] text-[#E91A1A] hover:bg-red-200">
+                  Delete
+                  <IoMdTrash color="#E91A1A" />
+                </div>
+              </DialogTrigger>
+
+              <DialogContent className="p-9 flex-col gap-4">
+                <DialogHeader className="flex-col gap-4">
+                  <DialogTitle>Confirm delete</DialogTitle>
+                  <DialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    this stock ? Enter your{' '}
+                    <span className="font-semibold">username</span> to delete
+                  </DialogDescription>
+                </DialogHeader>
+                <form className="flex flex-col gap-5">
+                  <input
+                    type="text"
+                    placeholder="eg: John"
+                    className="px-4 py-3 rounded-[12px] placeholder-[#6B6B6B] bg-[#F5F5F5] outline-none"
+                  />
+                  <div className="flex flex-row gap-4 items-center">
+                    <Button className="bg-[#E91A1A] hover:bg-[#c73535] p-2 px-3 text-white">
+                      Delete
+                    </Button>
+                    <Button className="text-black border border-[#D0D5DD] bg-transparent hover:bg-transparent p-2 px-3">
+                      Cancel
+                    </Button>
+                  </div>
+                </form>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
         <div className="flex flex-col gap-3 w-[30%]">
