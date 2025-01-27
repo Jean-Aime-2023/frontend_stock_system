@@ -165,23 +165,22 @@ export const columns: ColumnDef<Stock>[] = [
                 stock ? Enter your{' '}
                 <span className="font-semibold">username</span> to delete
               </DialogDescription>
-              </DialogHeader>
-              <form className="flex flex-col gap-5">
-                <input
-                  type="text"
-                  placeholder="eg: John"
-                  className="px-4 py-3 rounded-[12px] placeholder-[#6B6B6B] bg-[#F5F5F5] outline-none"
-                />
-                <div className="flex flex-row gap-4 items-center">
-                  <Button className="bg-[#E91A1A] hover:bg-[#c73535] p-2 px-3 text-white">
-                    Delete
-                  </Button>
-                  <Button className="text-black border border-[#D0D5DD] bg-transparent hover:bg-transparent p-2 px-3">
-                    Cancel
-                  </Button>
-                </div>
-              </form>
-            
+            </DialogHeader>
+            <form className="flex flex-col gap-5">
+              <input
+                type="text"
+                placeholder="eg: John"
+                className="px-4 py-3 rounded-[12px] placeholder-[#6B6B6B] bg-[#F5F5F5] outline-none"
+              />
+              <div className="flex flex-row gap-4 items-center">
+                <Button className="bg-[#E91A1A] hover:bg-[#c73535] p-2 px-3 text-white">
+                  Delete
+                </Button>
+                <Button className="text-black border border-[#D0D5DD] bg-transparent hover:bg-transparent p-2 px-3">
+                  Cancel
+                </Button>
+              </div>
+            </form>
           </DialogContent>
         </Dialog>
       );
@@ -190,11 +189,16 @@ export const columns: ColumnDef<Stock>[] = [
 ];
 
 export function StockTable() {
+  const router = useRouter();
+
+  const navigateToManagerDetails = (id: unknown) => {
+    router.push(`/products/${id}`);
+  };
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  const router = useRouter();
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
@@ -294,6 +298,8 @@ export function StockTable() {
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
+                  className="cursor-pointer"
+                  onClick={() => navigateToManagerDetails(row.original.id)}
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                 >
