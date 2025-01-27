@@ -192,7 +192,7 @@ export function StockTable() {
   const router = useRouter();
 
   const navigateToManagerDetails = (id: unknown) => {
-    router.push(`/products/${id}`);
+    router.push(`/stock/products/${id}`);
   };
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
