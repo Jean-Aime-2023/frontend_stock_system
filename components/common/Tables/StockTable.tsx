@@ -165,6 +165,7 @@ export const columns: ColumnDef<Stock>[] = [
                 stock ? Enter your{' '}
                 <span className="font-semibold">username</span> to delete
               </DialogDescription>
+              </DialogHeader>
               <form className="flex flex-col gap-5">
                 <input
                   type="text"
@@ -180,7 +181,7 @@ export const columns: ColumnDef<Stock>[] = [
                   </Button>
                 </div>
               </form>
-            </DialogHeader>
+            
           </DialogContent>
         </Dialog>
       );

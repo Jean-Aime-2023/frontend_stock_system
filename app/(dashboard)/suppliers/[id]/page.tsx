@@ -142,22 +142,22 @@ export const columns: ColumnDef<StockDetail>[] = [
                 stock? Enter your{' '}
                 <span className="font-semibold">username</span> to delete.
               </DialogDescription>
-              <form className="flex flex-col gap-5">
-                <input
-                  type="text"
-                  placeholder="eg: John"
-                  className="px-4 py-3 rounded-[12px] placeholder-[#6B6B6B] bg-[#F5F5F5] outline-none"
-                />
-                <div className="flex flex-row gap-4 items-center">
-                  <Button className="bg-[#E91A1A] hover:bg-[#c73535] p-2 px-3 text-white">
-                    Delete
-                  </Button>
-                  <Button className="text-black border border-[#D0D5DD] bg-transparent hover:bg-transparent p-2 px-3">
-                    Cancel
-                  </Button>
-                </div>
-              </form>
             </DialogHeader>
+            <form className="flex flex-col gap-5">
+              <input
+                type="text"
+                placeholder="eg: John"
+                className="px-4 py-3 rounded-[12px] placeholder-[#6B6B6B] bg-[#F5F5F5] outline-none"
+              />
+              <div className="flex flex-row gap-4 items-center">
+                <Button className="bg-[#E91A1A] hover:bg-[#c73535] p-2 px-3 text-white">
+                  Delete
+                </Button>
+                <Button className="text-black border border-[#D0D5DD] bg-transparent hover:bg-transparent p-2 px-3">
+                  Cancel
+                </Button>
+              </div>
+            </form>
           </DialogContent>
         </Dialog>
       );

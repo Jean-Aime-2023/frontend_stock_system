@@ -43,7 +43,7 @@ import {
 } from '@/components/ui/table';
 import { MdAdd } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
-import { detailedManagers,DetailedManager } from '@/data/Managers';
+import { detailedManagers, DetailedManager } from '@/data/Managers';
 
 export const columns: ColumnDef<DetailedManager>[] = [
   {
@@ -96,10 +96,10 @@ export const columns: ColumnDef<DetailedManager>[] = [
       return (
         <div className="flex gap-2">
           <Dialog>
-            <DialogTrigger>
+            <DialogTrigger asChild>
               <div
-                className="flex-1 bg-[#E91A1A] rounded hover:bg-[#c73535] p-2 text-white hover:text-white"
-                onClick={(e) => e.stopPropagation()} 
+                className="cursor-pointer bg-[#E91A1A] rounded hover:bg-[#c73535] p-2 text-white hover:text-white"
+                onClick={(e) => e.stopPropagation()}
               >
                 <FaRegTrashAlt color="white" />
               </div>
@@ -113,6 +113,7 @@ export const columns: ColumnDef<DetailedManager>[] = [
                   manager. Enter your{' '}
                   <span className="font-semibold">username</span> to confirm.
                 </DialogDescription>
+                </DialogHeader>
                 <form className="flex flex-col gap-5">
                   <input
                     type="text"
@@ -128,7 +129,7 @@ export const columns: ColumnDef<DetailedManager>[] = [
                     </Button>
                   </div>
                 </form>
-              </DialogHeader>
+              
             </DialogContent>
           </Dialog>
         </div>
@@ -137,14 +138,12 @@ export const columns: ColumnDef<DetailedManager>[] = [
   },
 ];
 
-
 export function ManagersTable() {
   const router = useRouter();
 
   const navigateToManagerDetails = (id: number) => {
     router.push(`/managers/${id}`);
   };
-  
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -178,7 +177,9 @@ export function ManagersTable() {
       <div className="flex justify-between items-center py-4">
         <Input
           placeholder="Filter supplier..."
-          value={(table.getColumn('fullName')?.getFilterValue() as string) ?? ''}
+          value={
+            (table.getColumn('fullName')?.getFilterValue() as string) ?? ''
+          }
           onChange={(event) =>
             table.getColumn('fullName')?.setFilterValue(event.target.value)
           }

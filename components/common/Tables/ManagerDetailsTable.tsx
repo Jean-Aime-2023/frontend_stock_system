@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import * as React from 'react';
@@ -41,7 +40,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { detailedManagers, Product } from '@/data/Managers';
 
 export const columns: ColumnDef<Product>[] = [
@@ -100,14 +99,13 @@ export const columns: ColumnDef<Product>[] = [
     id: 'actions',
     enableHiding: false,
     header: 'Actions',
-    cell: ({ row }) => {
-      const managerId = row.original.id;
+    cell: () => {
       return (
         <div className="flex gap-2">
           <Dialog>
-            <DialogTrigger>
+            <DialogTrigger asChild>
               <div
-                className="flex-1 bg-[#E91A1A] rounded hover:bg-[#c73535] p-2 text-white hover:text-white"
+                className="bg-[#E91A1A] cursor-pointer rounded hover:bg-[#c73535] p-2 text-white hover:text-white"
                 onClick={(e) => e.stopPropagation()}
               >
                 <FaRegTrashAlt color="white" />
@@ -121,6 +119,7 @@ export const columns: ColumnDef<Product>[] = [
                   manager. Enter your{' '}
                   <span className="font-semibold">username</span> to confirm.
                 </DialogDescription>
+                </DialogHeader>
                 <form className="flex flex-col gap-5">
                   <input
                     type="text"
@@ -136,7 +135,6 @@ export const columns: ColumnDef<Product>[] = [
                     </Button>
                   </div>
                 </form>
-              </DialogHeader>
             </DialogContent>
           </Dialog>
         </div>
@@ -146,7 +144,6 @@ export const columns: ColumnDef<Product>[] = [
 ];
 
 export function ManagerDetailsTable() {
-  const router = useRouter();
   const { id: managerId } = useParams();
 
   const productData: Product[] =
@@ -181,7 +178,7 @@ export function ManagerDetailsTable() {
   });
 
   return (
-    <div className="w-full p-3 rounded-xl bg-white border shadow-md">
+    <div className="w-full p-3 rounded-xl">
       <div className="flex justify-between items-center py-4">
         <Input
           placeholder="Filter product name..."

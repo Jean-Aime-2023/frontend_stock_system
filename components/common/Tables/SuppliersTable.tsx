@@ -114,6 +114,7 @@ export const columns: ColumnDef<Supplier>[] = [
                   supplier. Enter your{' '}
                   <span className="font-semibold">username</span> to confirm.
                 </DialogDescription>
+                </DialogHeader>
                 <form className="flex flex-col gap-5">
                   <input
                     type="text"
@@ -129,7 +130,7 @@ export const columns: ColumnDef<Supplier>[] = [
                     </Button>
                   </div>
                 </form>
-              </DialogHeader>
+              
             </DialogContent>
           </Dialog>
         </div>
