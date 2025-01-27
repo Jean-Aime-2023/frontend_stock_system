@@ -15,7 +15,7 @@ const Stock = () => {
   }, []);
 
   const handleCreateProduct = () => {
-    router.push('/products/new');
+    router.push('/stock/products/new');
   };
 
   return (

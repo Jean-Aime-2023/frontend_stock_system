@@ -1,9 +1,8 @@
-import React from 'react'
+import Blank from '@/components/common/Blank';
+import React from 'react';
 
 const Settings = () => {
-  return (
-    <div>Settings</div>
-  )
-}
+  return <Blank text="Coming soon!" />;
+};
 
-export default Settings
+export default Settings;

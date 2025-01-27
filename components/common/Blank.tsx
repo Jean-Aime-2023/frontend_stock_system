@@ -3,10 +3,10 @@ import React, { ReactNode } from 'react';
 import { Button } from '../ui/button';
 
 interface BlankProps {
-  onPress: () => void;
+  onPress?: () => void;
   text?: string;
   icon?: ReactNode;
-  buttonText: string;
+  buttonText?: string;
 }
 
 const Blank: React.FC<BlankProps> = ({ onPress, text, icon, buttonText }) => {

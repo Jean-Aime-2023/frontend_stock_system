@@ -63,7 +63,7 @@ const ProuctDetails = () => {
               <IoMdLock />
             </Button>
             <Button
-              onClick={() => router.push('/products/edit')}
+              onClick={() => router.push('/stock/products/edit')}
               className="flex items-center gap-2 bg-[#F4F4F4] text-[#5D6679] hover:bg-slate-200"
             >
               Edit Product
