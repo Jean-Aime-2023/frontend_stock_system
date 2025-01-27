@@ -101,7 +101,7 @@ const Verification = () => {
             <div className="text-[#586166]">
               {canResend ? (
                 <div className="text-[#586166] flex items-center justify-center space-x-1">
-                  <span>Didn't receive code?</span>
+                  <span>Didn&apos;t receive code?</span>
                   <button
                     type="button"
                     className="text-[#80D0E3]"
