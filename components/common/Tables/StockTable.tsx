@@ -265,7 +265,7 @@ export function StockTable() {
             Export
           </Button>
           <Button
-            onClick={() => router.push('/products/new')}
+            onClick={() => router.push('/stock/products/new')}
             variant="outline"
             className="ml-auto bg-blue border-none hover:bg-blue/80 text-white hover:text-white"
           >
